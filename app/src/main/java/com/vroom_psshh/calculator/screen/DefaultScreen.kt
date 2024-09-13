@@ -23,7 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vroom_psshh.calculator.logic.Operations
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.vroom_psshh.calculator.calculation.Calculation
+import com.vroom_psshh.calculator.logic.Actions
+import com.vroom_psshh.calculator.logic.OperationalMethods
 
 @Preview
 @Composable
@@ -38,6 +41,9 @@ fun Container() {
 
 @Composable
 fun DesignContainer() {
+
+    val calculationClass: Calculation = viewModel()
+    val state = calculationClass.states
 
     val numericKeypadColor = 0xFF000000
     val operationKeypadColor = 0xFFEAC14A
@@ -56,7 +62,7 @@ fun DesignContainer() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(80.dp),
-                text = "input",
+                text = state.number1 + (state.operations?.symbol ?: "") + state.number2,
                 fontSize = 55.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Right
@@ -80,7 +86,8 @@ fun DesignContainer() {
                     Row {
                         Button(
                             modifier = Modifier.size(80.dp),
-                            onClick = { Operations.ALL_CLEAR },
+                            onClick = { calculationClass.onAction(Actions.Clear)
+                            },
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFF3D882C)
@@ -91,7 +98,7 @@ fun DesignContainer() {
                         }
                         Button(
                             modifier = Modifier.size(80.dp),
-                            onClick = { Operations.REMAINDER},
+                            onClick = { calculationClass.onAction(Actions.Operations(OperationalMethods.Remainder))},
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFFEAC14A)
@@ -102,7 +109,7 @@ fun DesignContainer() {
                         }
                         Button(
                             modifier = Modifier.size(80.dp),
-                            onClick = { Operations.SINGLEDLT},
+                            onClick = { calculationClass.onAction(Actions.Delete)},
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFFEAC14A)
@@ -113,7 +120,7 @@ fun DesignContainer() {
                         }
                         Button(
                             modifier = Modifier.size(80.dp),
-                            onClick = { Operations.DIVIDE},
+                            onClick = {calculationClass.onAction(Actions.Operations(OperationalMethods.Divide))},
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFFEAC14A)
@@ -129,7 +136,7 @@ fun DesignContainer() {
                             Row {
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = {Operations.NUMERAL },
+                                    onClick = {calculationClass.onAction(Actions.Number(7))},
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -140,7 +147,7 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = { },
+                                    onClick = {calculationClass.onAction(Actions.Number(8))},
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -151,7 +158,7 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = { Operations.NUMERAL},
+                                    onClick = {calculationClass.onAction(Actions.Number(9))},
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -165,7 +172,7 @@ fun DesignContainer() {
                             Row {
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = {Operations.NUMERAL },
+                                    onClick = {calculationClass.onAction(Actions.Number(4))},
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -176,7 +183,8 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = { Operations.NUMERAL},
+                                    onClick = {calculationClass.onAction(Actions.Number(5))
+                                    },
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -187,7 +195,7 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = { },
+                                    onClick = { calculationClass.onAction(Actions.Number(6))},
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -200,7 +208,7 @@ fun DesignContainer() {
                             Row {
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = {Operations.NUMERAL },
+                                    onClick = {calculationClass.onAction(Actions.Number(1)) },
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -211,7 +219,7 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = { Operations.NUMERAL},
+                                    onClick = {calculationClass.onAction(Actions.Number(2))},
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -222,7 +230,7 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = {Operations.NUMERAL },
+                                    onClick = {calculationClass.onAction(Actions.Number(3)) },
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -235,7 +243,7 @@ fun DesignContainer() {
                             Row {
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = {Operations.NUMERAL },
+                                    onClick = {calculationClass.onAction(Actions.Number(0)) },
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -246,7 +254,7 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = {Operations.NUMERAL },
+                                    onClick = {calculationClass.onAction(Actions.Number(0)) },
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -257,7 +265,7 @@ fun DesignContainer() {
                                 }
                                 Button(
                                     modifier = Modifier.size(80.dp),
-                                    onClick = {Operations.NUMERAL },
+                                    onClick = {calculationClass.onAction(Actions.Decimals)},
                                     shape = CircleShape,
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(numericKeypadColor)
@@ -273,7 +281,7 @@ fun DesignContainer() {
                         Column {
                             Button(
                                 modifier = Modifier.size(80.dp),
-                                onClick = { Operations.MULTIPLY},
+                                onClick = { calculationClass.onAction(Actions.Operations(OperationalMethods.Multiply))},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color(operationKeypadColor)
@@ -284,7 +292,7 @@ fun DesignContainer() {
                             }
                             Button(
                                 modifier = Modifier.size(80.dp),
-                                onClick = { Operations.SUBTRACT},
+                                onClick = {calculationClass.onAction(Actions.Operations(OperationalMethods.Subtract))},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color(operationKeypadColor)
@@ -295,7 +303,7 @@ fun DesignContainer() {
                             }
                             Button(
                                 modifier = Modifier.size(80.dp),
-                                onClick = {Operations.ADD },
+                                onClick = {calculationClass.onAction(Actions.Operations(OperationalMethods.Add))},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color(operationKeypadColor)
@@ -306,7 +314,7 @@ fun DesignContainer() {
                             }
                             Button(
                                 modifier = Modifier.size(80.dp),
-                                onClick = { Operations.EQUALS },
+                                onClick = {calculationClass.onAction(Actions.Calculate)},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color(0xFFFF0000)
