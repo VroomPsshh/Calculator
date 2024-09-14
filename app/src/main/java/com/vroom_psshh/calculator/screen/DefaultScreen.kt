@@ -1,11 +1,17 @@
 package com.vroom_psshh.calculator.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -47,9 +53,12 @@ fun DesignContainer() {
 
     val numericKeypadColor = 0xFF000000
     val operationKeypadColor = 0xFFEAC14A
+
+    val navigationBarHeight = WindowInsets.navigationBars.asPaddingValues()
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(navigationBarHeight)
             .background(color = Color(0xFF66666D))
     )
     {
@@ -65,7 +74,8 @@ fun DesignContainer() {
                 text = state.number1 + (state.operations?.symbol ?: "") + state.number2,
                 fontSize = 55.sp,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Right
+                textAlign = TextAlign.Right,
+                maxLines = 2
             )
 
             Card(
@@ -76,14 +86,18 @@ fun DesignContainer() {
             {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp, bottom = 12.dp),
+                        .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
 
                     )
                 {
                     //operational button 1st Row
-                    Row {
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(bottom = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Button(
                             modifier = Modifier.size(80.dp),
                             onClick = { calculationClass.onAction(Actions.Clear)
@@ -98,17 +112,6 @@ fun DesignContainer() {
                         }
                         Button(
                             modifier = Modifier.size(80.dp),
-                            onClick = { calculationClass.onAction(Actions.Operations(OperationalMethods.Remainder))},
-                            shape = CircleShape,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFFEAC14A)
-                            )
-                        )
-                        {
-                            Text(text = "%", fontSize = 24.sp)
-                        }
-                        Button(
-                            modifier = Modifier.size(80.dp),
                             onClick = { calculationClass.onAction(Actions.Delete)},
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
@@ -116,7 +119,18 @@ fun DesignContainer() {
                             )
                         )
                         {
-                            Text(text = "X", fontSize = 24.sp)
+                            Text(text = "⌫", fontSize = 24.sp)
+                        }
+                        Button(
+                            modifier = Modifier.size(80.dp),
+                            onClick = {calculationClass.onAction(Actions.Operations(OperationalMethods.Remainder)) },
+                            shape = CircleShape,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFFEAC14A)
+                            )
+                        )
+                        {
+                            Text(text = "%", fontSize = 24.sp)
                         }
                         Button(
                             modifier = Modifier.size(80.dp),
@@ -130,10 +144,16 @@ fun DesignContainer() {
                             Text(text = "/", fontSize = 24.sp)
                         }
                     }
-                    Row {
+                    Row(modifier = Modifier.fillMaxWidth()
+                        .height(370.dp)) {
                         //Numerical Row Column container
-                        Column  {
-                            Row {
+                        Column(modifier = Modifier
+                            .weight(3f)
+                        )  {
+                            Row (modifier = Modifier.fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically){
                                 Button(
                                     modifier = Modifier.size(80.dp),
                                     onClick = {calculationClass.onAction(Actions.Number(7))},
@@ -169,7 +189,10 @@ fun DesignContainer() {
                                 }
 
                             }
-                            Row {
+                            Row (modifier = Modifier.fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically){
                                 Button(
                                     modifier = Modifier.size(80.dp),
                                     onClick = {calculationClass.onAction(Actions.Number(4))},
@@ -205,7 +228,10 @@ fun DesignContainer() {
                                     Text(text = "6", fontSize = 24.sp)
                                 }
                             }
-                            Row {
+                            Row (modifier = Modifier.fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically) {
                                 Button(
                                     modifier = Modifier.size(80.dp),
                                     onClick = {calculationClass.onAction(Actions.Number(1)) },
@@ -240,7 +266,9 @@ fun DesignContainer() {
                                     Text(text = "3", fontSize = 24.sp)
                                 }
                             }
-                            Row {
+                            Row(modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically) {
                                 Button(
                                     modifier = Modifier.size(80.dp),
                                     onClick = {calculationClass.onAction(Actions.Number(0)) },
@@ -278,9 +306,14 @@ fun DesignContainer() {
                         }
 
                         //operational last column
-                        Column {
+                        Column(modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
+                            verticalArrangement = Arrangement.SpaceBetween) {
                             Button(
-                                modifier = Modifier.size(80.dp),
+                                modifier = Modifier.size(80.dp)
+                                    .align(Alignment.End)
+                                ,
                                 onClick = { calculationClass.onAction(Actions.Operations(OperationalMethods.Multiply))},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
@@ -291,7 +324,8 @@ fun DesignContainer() {
                                 Text(text = "*", fontSize = 24.sp)
                             }
                             Button(
-                                modifier = Modifier.size(80.dp),
+                                modifier = Modifier.size(80.dp)
+                                    .align(Alignment.End),
                                 onClick = {calculationClass.onAction(Actions.Operations(OperationalMethods.Subtract))},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
@@ -302,7 +336,8 @@ fun DesignContainer() {
                                 Text(text = "-", fontSize = 24.sp)
                             }
                             Button(
-                                modifier = Modifier.size(80.dp),
+                                modifier = Modifier.size(80.dp)
+                                    .align(Alignment.End),
                                 onClick = {calculationClass.onAction(Actions.Operations(OperationalMethods.Add))},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
@@ -313,7 +348,8 @@ fun DesignContainer() {
                                 Text(text = "+", fontSize = 24.sp)
                             }
                             Button(
-                                modifier = Modifier.size(80.dp),
+                                modifier = Modifier.size(80.dp)
+                                    .align(Alignment.End),
                                 onClick = {calculationClass.onAction(Actions.Calculate)},
                                 shape = CircleShape,
                                 colors = ButtonDefaults.buttonColors(
